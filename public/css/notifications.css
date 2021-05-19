@@ -1,0 +1,7 @@
+li > a{
+  color: #005F40;
+}
+
+li > a:hover{
+  color: #2E794D;
+}
