@@ -8,7 +8,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/john-rey-edralin/disco-petitio.git"
+    "url": "git+https://github.com/john-rey-edralin/disco-petitio.git",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
