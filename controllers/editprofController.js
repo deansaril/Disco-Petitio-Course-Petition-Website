@@ -34,7 +34,7 @@ const editprofController = {
         var username = req.params.username;
 
         var completepath = req.file.path;
-        var picname = completepath.substring(completepath.lastIndexOf('\\') + 1);
+        var picname = completepath.substr(14);
         // //console.log(JSON.stringify(req.file.path))
         // //res.redirect('/editprof/'+username);
         // // alert(JSON.stringify(picname));
