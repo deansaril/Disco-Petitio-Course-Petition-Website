@@ -4,7 +4,8 @@
   "description": "A Petition for people in DLSU who are not able to enroll to the courses they want.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
