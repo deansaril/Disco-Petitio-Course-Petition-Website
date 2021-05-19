@@ -18,7 +18,7 @@
 <body>
   {{> sidenav username = result.username first = result.first last = result.last email = result.email idnum = result.idnum
               pass = result.pass picname = result.picname admin = result.admin}}
-  {{> topnav}}
+  {{> topnav username = result.username}}
   {{#if details}}
   <div class="modal fade" id="thisModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
