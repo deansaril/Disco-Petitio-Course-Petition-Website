@@ -1,0 +1,31 @@
+html,
+body {
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}	
+
+form{
+	font-family: 'Lusitana', serif;
+}
+
+#create-petition-submit-button:hover{
+  background-color: #2E794D;
+}
+
+h1[class="display-3"]{
+	font-family: 'Lusitana', serif;
+}
+
+.error{
+	color:#B00000;
+}
+
+.fa{
+	display:none;
+}
