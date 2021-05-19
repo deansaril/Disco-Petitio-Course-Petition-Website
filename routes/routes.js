@@ -39,6 +39,8 @@ const app = express();
 
 app.get('/', controller.getIndex);
 
+app.get('/favicon.ico', controller.getFavicon);
+
 app.get('/register', registerController.getRegister);
 
 app.post('/register', validation.registerValidation(), registerController.postRegister);
