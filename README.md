@@ -20,7 +20,7 @@ The following are the contents of the project:
 ## Setting Up
 
 ### Locally
-1. First, clone this repository by downloading [here](https://github.com/john-rey-edralin/disco-petitio.git), or if git is downloaded, run the following command in the command prompt:
+1. First, clone this repository by downloading [here](https://github.com/john-rey-edralin/disco-petitio/archive/refs/heads/main.zip), or if git is downloaded, run the following command in the command prompt:
 ```
 git clone https://github.com/ccapdev1920T2/s11g5
 ```
