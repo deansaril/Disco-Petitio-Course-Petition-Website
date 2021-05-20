@@ -44,7 +44,7 @@ The heroku deployment of the website is available in [https://disco-petitio.hero
 ## Logging in
 
 ### User Types
-There are two types of users in this web application. The first is a normal user, that creates, edits, and signs a petitions also, can to comment in a petitions. The second is administrator which has all perks of a normal user but can handle the completed petitions and decide if it will accept or reject the petition. It is impossible to set someone an admin using the web application and must be set directly in the database so that to prevent manipulation of petitions.
+There are two types of users in this web application. The first is a normal user, that creates, edits, and signs a petitions also, can to comment in a petitions. The second is administrator which has all perks of a normal user but can handle the completed petitions and decide if it will accept or reject the petition. It is `impossible` to set someone an admin using the web application and must be set directly in the database so that to prevent manipulation of petitions.
 
 ### Admin Account
 The following account/s are set as an admin account
