@@ -52,6 +52,15 @@ The following account/s are set as an admin account
 username: admin
 password: 12345678
 ```
+## Dependencies
+- dotenv
+- express
+- express-validator
+- hbs
+- mongodb
+- mongoose
+- moongoose
+- multer
 
 ## Authors
 - Dean Saril
