@@ -51,6 +51,10 @@ var PetitionSchema = new mongoose.Schema({
     petitionid: {
         type: Number,
         required: true
+    },
+    path: {
+        type: String,
+        required: false
     }
 });
 

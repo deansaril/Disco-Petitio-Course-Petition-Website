@@ -69,7 +69,7 @@ app.get('/getDeleteUser', editprofController.getDeleteUser);
 
 app.get('/createpetition/:username', createpetitionController.getCreatepetition);
 
-app.post('/createpetition/:username', createpetitionController.postCreatepetition);
+app.post('/createpetition/:username', validation.petitionValidation(), createpetitionController.postCreatepetition);
 
 app.get('/mypetition/:username', mypetitionController.getMypetition);
 

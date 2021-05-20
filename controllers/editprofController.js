@@ -38,6 +38,7 @@ const editprofController = {
         // //console.log(JSON.stringify(req.file.path))
         // //res.redirect('/editprof/'+username);
         // // alert(JSON.stringify(picname));
+        console.log(completepath)
         console.log(picname)
           
         db.findOne(User, {username: username}, null, function (filter) {

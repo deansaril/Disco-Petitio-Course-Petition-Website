@@ -17,8 +17,6 @@ const options = {
     useNewUrlParser: true
 };
 
-console.log('this is >>>> ' + process.env.DB_URL);
-
 // defines an object which contains necessary database functions
 const database = {
 
