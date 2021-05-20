@@ -30,7 +30,7 @@ git clone https://github.com/john-rey-edralin/disco-petitio
 npm install
 ```
 
-3. Once all modules are loaded, run `one` the following command:
+3. Once all modules are loaded, run `one` of the following command:
 ```
 node index.js
 supervisor index.js
@@ -40,6 +40,18 @@ supervisor index.js
 
 ### Online
 The heroku deployment of the website is available in [https://disco-petitio.herokuapp.com/](https://disco-petitio.herokuapp.com/)
+
+## Logging in
+
+### User types
+There are two types of users in this web application. The first is a normal user, that creates, edits, and signs a petitions also, can to comment in a petitions. The second is administrator which has all perks of a normal user but can handle the completed petitions and decide if it will accept or reject the petition. It is impossible to set someone an admin using the web application and must be set directly in the database so that to prevent manipulation of petitions.
+
+### Admin Account
+The following account/s are set as an admin account
+```
+username: admin
+password: 12345678
+```
 
 ## Authors
 - Dean Saril
