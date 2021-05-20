@@ -52,15 +52,14 @@ The following account/s are set as an admin account
 username: admin
 password: 12345678
 ```
-## Dependencies
-- dotenv
-- express
-- express-validator
-- hbs
-- mongodb
-- mongoose
-- moongoose
-- multer
+## Used Dependencies
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [express](https://www.npmjs.com/package/express)
+- [express-validator](https://www.npmjs.com/package/express-validator)
+- [hbs](https://www.npmjs.com/package/hbs)
+- [mongodb](https://www.npmjs.com/package/mongodb)
+- [mongoose](https://www.npmjs.com/package/mongoose)
+- [multer](https://www.npmjs.com/package/multer)
 
 ## Authors
 - Dean Saril
