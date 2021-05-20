@@ -52,6 +52,14 @@ The following account/s are set as an admin account
 username: admin
 password: 12345678
 ```
+
+### User Account
+The following account/s are example of a normal user account
+```
+username: user
+password: 12345678
+```
+
 ## Used Dependencies
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [express](https://www.npmjs.com/package/express)
