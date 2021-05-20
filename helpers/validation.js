@@ -107,6 +107,34 @@ const validation = {
         ];
 
         return validation;
+    },
+
+    petitionValidation: function () {
+
+        /*
+            object `validation` is an array of validation middlewares.
+            the first parameter in method check() is the field to check
+            the second parameter in method check() is the error message
+            to be displayed when the value to the parameter fails
+            the validation
+        */
+        var validation = [
+
+            // checks if `fName` is not empty
+            check('coursecode', 'Course Code should not be empty.').notEmpty(),
+
+            // checks if lName is not empty
+            check('starttime', 'Start Time should not be empty.').notEmpty(),
+
+            // checks if lName is not empty
+            check('endtime', 'End Time should not be empty.').notEmpty(),
+
+            // checks if `idNum` contains exactly 8 digits
+            check('numstudents', 'ID number should contain 8 digits.')
+            .isLength({min: 1}),          
+        ];
+
+        return validation;
     }
 }
 
