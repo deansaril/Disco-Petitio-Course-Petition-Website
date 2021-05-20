@@ -22,23 +22,21 @@ The following are the contents of the project:
 ### Locally
 1. First, clone this repository by downloading [here](https://github.com/john-rey-edralin/disco-petitio/archive/refs/heads/main.zip), or if git is downloaded, run the following command in the command prompt:
 ```
-git clone https://github.com/ccapdev1920T2/s11g5
+git clone https://github.com/john-rey-edralin/disco-petitio
 ```
 
-2. Once downloaded, in the command prompt, get to the path of the project folder then run the following command in order to initialize and install all necessary modules used in this project:
+2. Once downloaded, in the command prompt, get to the path of the project folder then run the following command in order to load all modules used in this project:
 ```
 npm install
 ```
 
-3. Once all necessary modules are initialized and installed, the server could now run with the following command:
+3. Once all modules are loaded, run `one` the following command:
 ```
 node index.js
+supervisor index.js
 ```
 
-4. Once the server is running, go on any browser and type in:
-```
-http://localhost:3000
-```
+4. Once the server is running, click or type the link in any browser but recommendedly use `Google Chrome` for better experience: [http://localhost:3000](http://localhost:3000)
 
 ### Online
 The heroku deployment of the website is available in [https://disco-petitio.herokuapp.com/](https://disco-petitio.herokuapp.com/)
