@@ -42,6 +42,7 @@ supervisor index.js
 The heroku deployment of the website is available in [https://disco-petitio.herokuapp.com/](https://disco-petitio.herokuapp.com/)
 
 ## Logging in
+![GitHub Login](/public/images/loginpage.jpg)
 
 ### User Types
 There are two types of users in this web application. The first is a normal user, that creates, edits, and signs a petitions also, can to comment in a petitions. The second is administrator which has all perks of a normal user but can handle the completed petitions and decide if it will accept or reject the petition. It is `impossible` to set someone an admin using the web application and must be set directly in the database so that to prevent manipulation of petitions.
@@ -59,6 +60,21 @@ The following account/s are example of a normal user account
 username: user
 password: 12345678
 ```
+## Register
+Located under the Log-in button in the login page, any user who wants to access the web application but does not have an account will have to register first.
+
+## Homepage
+
+### Admin Homepage View
+![GitHub Login](/public/images/adminhomepage.jpg)
+
+### Normal User Homepage View
+![GitHub Login](/public/images/userhomepage.jpg)
+
+The only difference between the Admin Homepage View and Normal User Homepage View is that in the Admin Homepage View, `Accept Petitions` in top navigation is accessible by the admin.
+
+#### Accept Petitions
+Here the admin can accept, reject, and make a petition pending which will notify all signees of the petition.
 
 ## Used Dependencies
 - [dotenv](https://www.npmjs.com/package/dotenv)
