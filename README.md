@@ -76,6 +76,33 @@ The only difference between the Admin Homepage View and Normal User Homepage Vie
 #### Accept Petitions
 Here the admin can accept, reject, and make a petition pending which will notify all signees of the petition.
 
+#### My Petitions
+This page will show all petitions the user had made.
+
+#### Create a Petition
+Here the user can create the petition they wanted as well as set time and date.
+
+#### Notifications
+Here the user can see the progress of the current users petition as well as petitions of those whom the user signed.
+
+#### Sign a Petition
+The default will show all petitions available including your own. There is a feature that will allow to filter the list of petitions that can be done by searching or by clicking the first two big characters of each petition.
+
+#### Petition's Page
+It is possible to comment in the page
+
+##### Owner of the Page
+The owner of the page can edit and delete their pages.
+
+##### Other users of the Page
+The users can sign or unsign a petition if they did not own the page.
+
+#### Edit Profile
+In this page, the users can edit their profile to their liking.
+
+#### Show Profile
+Hovering the user's mouse towards the profile pic under side navigation will display the user profile.
+
 ## Used Dependencies
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [express](https://www.npmjs.com/package/express)
