@@ -20,8 +20,8 @@
 		<div class="container">
 			<div class="row justify-content-around">
 				<div class="col align-self-center">
-					<div class="alert alert-primary" role="alert">
-					  This petition is still ongoing! Once required number of signatures is reached, it will be pending for approval of the university.{{hasSigned}}
+					<div class="alert {{statusAlertColor petitionResult.statusicon}}" role="alert">
+					  {{statusAlertText petitionResult.statusicon}}
 					</div>
 					<h1 class="display-2">{{petitionResult.coursecode}}</h1>
 					<dl class="row">
