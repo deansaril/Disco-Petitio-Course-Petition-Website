@@ -93,6 +93,48 @@ hbs.registerHelper('ifSignedButtonText', function(hasSigned){
 
 });
 
+hbs.registerHelper('statusAlertColor', function(status){
+	var value;
+	if(status == "fa fa-tasks"){
+		//value = 'Ongoing';
+		value = 'alert-primary';
+	} 
+	else if(status == "fa fa-spinner"){
+		//value = 'Pending';
+		value = 'alert-warning';
+	}
+	else if(status == "fa fa-check-square"){
+		//value = 'Approved';
+		value= 'alert-success';
+	}
+	else if(status == "fa fa-times-circle"){
+		//value = 'Disapproved';
+		value = 'alert-danger';
+	}
+	return value;
+});
+
+hbs.registerHelper('statusAlertText', function(status){
+	var value;
+	if(status == "fa fa-tasks"){
+		//value = 'Ongoing';
+		value = 'This petition is still ongoing! Once required number of signatures is reached, it will be pending for approval of the university.';
+	} 
+	else if(status == "fa fa-spinner"){
+		//value = 'Pending';
+		value = 'This petition is currently pending approval from the University. Please wait and coordinate with your fellow signees for the meantime.';
+	}
+	else if(status == "fa fa-check-square"){
+		//value = 'Approved';
+		value= 'Congratulations! This petition has been approved by the university. Please coordinate with the university and your fellow signees.';
+	}
+	else if(status == "fa fa-times-circle"){
+		//value = 'Disapproved';
+		value = 'orry! This petition is disapproved by the university. Please start or sign another petition.';
+	}
+	return value;
+});
+
 
 // parses incoming requests with urlencoded payloads
 app.use(express.urlencoded({extended: true}));
