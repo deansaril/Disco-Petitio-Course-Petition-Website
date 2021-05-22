@@ -29,6 +29,10 @@ git clone https://github.com/john-rey-edralin/disco-petitio
 ```
 npm install
 ```
+2.1 It is also encouraged to  manually install bcrypt using the command below as there is a possibility it is not also installed when executing ```npm install```:
+```
+npm install bcrypt
+```
 
 3. Once all modules are loaded, run `one` of the following command:
 ```
