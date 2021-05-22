@@ -156,6 +156,7 @@ $(document).ready(function(){
 			$(this).attr("class", "btn btn-secondary btn-block my-3");
 			$(this).text("Unsign Petition");
 			$(this).removeClass("sign-petition").addClass("unsign-petition");
+
 		}
 	})
 
@@ -173,11 +174,11 @@ $(document).ready(function(){
 				var URL = window.location.href;
 				$('#petition-progress').load(URL + ' #petition-progress');
 				$('.signees').load(URL + ' .signees');
-
-				$(this).attr("class", "btn btn-primary btn-block my-3");
-				$(this).text("Sign Petition");
-				$(this).removeClass("unsign-petition").addClass("sign-petition");
 			});
+
+			$(this).attr("class", "btn btn-primary btn-block my-3");
+			$(this).text("Sign Petition");
+			$(this).removeClass("unsign-petition").addClass("sign-petition");
 
 		
 		}
