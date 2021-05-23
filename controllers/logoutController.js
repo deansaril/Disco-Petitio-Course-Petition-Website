@@ -11,19 +11,10 @@ const logoutController = {
     */
     getLogOut: function (req, res) {
 
-        /*
-            logs-out the current user
-            destroys the current values stored in `req.session`
-        */
-        req.session.destroy(function(err) {
-            if(err) throw err;
+        req.session.destroy();
+        console.log(req.session.username);
 
-            /*
-                redirects the client to `/profile` using HTTP GET,
-                defined in `../routes/routes.js`
-            */
-            res.redirect('/');
-        });
+        res.redirect('/');
 
     }
 
