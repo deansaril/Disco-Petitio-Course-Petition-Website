@@ -11,6 +11,10 @@ const logoutController = {
     */
     getLogOut: function (req, res) {
 
+        /*
+            logs-out the current user
+            destroys the current values stored in `req.session`
+        */
         req.session.destroy();
 
         res.redirect('/');

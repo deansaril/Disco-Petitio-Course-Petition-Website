@@ -35,6 +35,8 @@ const acceptpetitionController = require('../controllers/acceptpetitionControlle
 
 const petitionController = require('../controllers/petitionController.js')
 
+const logoutController = require('../controllers/logoutController.js')
+
 const validation = require('../helpers/validation.js');
 
 const app = express();
@@ -97,6 +99,7 @@ app.get('/getRejectpetition', acceptpetitionController.getRejectpetition);
 
 app.get('/getPendingpetition', acceptpetitionController.getPendingpetition);
 
+app.get('/getLogOut', logoutController.getLogOut);
 
 //added routes for petition
 
