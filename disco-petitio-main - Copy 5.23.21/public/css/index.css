@@ -1,0 +1,19 @@
+.page-content img
+{
+  max-width: 100%;
+}
+
+div[class="col my-auto"] h1, div[class="col my-auto"] h6{
+  font-family: 'Lusitana', serif;
+}
+
+div[class="col my-auto"] a{
+  font-family: 'Lusitana', serif;
+  background-color: #005F40;
+  border-color: #005F40;
+  margin: 2px;
+}
+
+div[class="col my-auto"] a:hover{
+  background-color: #2E794D;
+}

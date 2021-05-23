@@ -1,0 +1,20 @@
+<div class="topnav">
+	<a style="font-size:33px;cursor:pointer" onclick="openNav()">&#9776;</a>
+	<a id="logo" href="/home/{{username}}">
+		<img src="/images/Disco_Petitio.png" alt="logo" width="43px" height="49px">
+	</a>
+	<div class="menu">
+		<a href="/signpetition/{{username}}"><i class="fa fa-fw fa-search"></i>Sign a Petition</a>
+		<a href="notifications.html"><i class="fa fa-fw fa-bell"></i>Notifications</a>
+	    <a href="/createpetition/{{username}}"><i class="fa fa-fw fa-pencil"></i>Create a Petition</a>
+	    <a href="/mypetition/{{username}}"><i class="fa fa-fw fa-file"></i>My Petitions</a>
+	    {{#if admin}}
+	    	<a href="/acceptpetition/{{username}}/filter?search="><i class="fa fa-fw fa-inbox"></i>Accept Petitions</a>
+	    {{/if}}
+	</div>
+	<div class="link">
+		<a id="dlsu" href="https://my.dlsu.edu.ph/contactinfo.asp">
+			<img src="/images/DLSU.png" alt="dlsu" width="40px" height="40px">
+		</a>
+	</div>
+</div>
