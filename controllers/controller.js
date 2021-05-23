@@ -18,9 +18,14 @@ const controller = {
         as defined in `../routes/routes.js`
     */
     getIndex: function (req, res) {
+        console.log(req.session.username);
+        if(req.session.username) {
 
-        // render `../views/index.hbs`
-        res.redirect('/login');
+            res.redirect('/home/' + req.session.username);
+        }
+        else {
+            res.redirect('/login');
+        }
     }
 }
 

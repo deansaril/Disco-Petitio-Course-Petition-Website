@@ -15,15 +15,21 @@ const homeController = {
         as defined in `../routes/routes.js`
     */
     getHome: function (req, res) {
+        if(req.session.username) {
 
-        var username = req.params.username;
-        //res.render(`edit-prof`,username);
-        //var username = req.query.param;
-        //res.send(username);
-        //res.render(`edit-prof`);
-        db.findOne(User, {username: username}, null, function (result) {
-            res.render(`home`,result);
-        });
+            var username = req.session.username;
+            //res.render(`edit-prof`,username);
+            //var username = req.query.param;
+            //res.send(username);
+            //res.render(`edit-prof`);
+            db.findOne(User, {username: username}, null, function (result) {
+                res.render(`home`,result);
+            });
+        }
+        else {
+            res.redirect('/login');
+        }
+            
 
            //     res.redirect('/home?username=' + result.username);
 

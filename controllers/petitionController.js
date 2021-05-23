@@ -19,214 +19,253 @@ const Comment = require('../models/CommentModel.js');
 const petitionController = {
 
     getPetition: function(req,res){
-        var username = req.params.username;
-        var petitionid = req.params.petitionid;
-        var flag = false;
+        if(req.session.username) {
 
-        //gets the petition requested in the path based on petition id
-        db.findOne(Petition, {petitionid: petitionid}, null, function (petitionResult){
-            if(petitionResult != null){
+            var username = req.session.username;
+            var petitionid = req.params.petitionid;
+            var flag = false;
 
-                //gets the User or the owner of the petition
-                db.findOne(User, {username: petitionResult.username}, null, function (userResult){
-                    if(userResult != null){
+            //gets the petition requested in the path based on petition id
+            db.findOne(Petition, {petitionid: petitionid}, null, function (petitionResult){
+                if(petitionResult != null){
 
-                        //db findOne(Signee, {username: username, petitionid: petitionid})
-                        db.findOne(User, {username: username}, null, function(curUserResult){
-                            if(username == userResult.username){
-                                flag = true;
-                            }
+                    //gets the User or the owner of the petition
+                    db.findOne(User, {username: petitionResult.username}, null, function (userResult){
+                        if(userResult != null){
 
-
-                            db.findMany(Signee, {petitionid: petitionid}, null, function (signeeResult){
-
-                                if(signeeResult != null){
-                                    db.findOne(Signee, {username: username, petitionid: petitionid}, null, function(signed){
-
-                                        var hasSigned = false;
-                                        //If current user logged in has already signed
-                                        if(signed != null){
-                                            hasSigned = true;
-                                        }
-
-                                        db.findMany(Comment, {petitionid: petitionid}, null, function (comments){
-                                            /*
-                                                petitionResult is the petition being requested
-                                                userResult is the owner of the petition
-                                                signeeResult is the signees of the petition
-                                                curUserResult is the user currently logged in
-                                                hasSigned is if the user has already signed the petition
-                                                comments is the array of comments in the petition
-                                            */
-                                            res.render('petition', {petitionResult, userResult, flag, signeeResult, curUserResult, hasSigned, comments});
-                                        });
-                                    });
+                            //db findOne(Signee, {username: username, petitionid: petitionid})
+                            db.findOne(User, {username: username}, null, function(curUserResult){
+                                if(username == userResult.username){
+                                    flag = true;
                                 }
-                            });
 
-                        });
-                    }
-                });
-            }
-        });
+
+                                db.findMany(Signee, {petitionid: petitionid}, null, function (signeeResult){
+
+                                    if(signeeResult != null){
+                                        db.findOne(Signee, {username: username, petitionid: petitionid}, null, function(signed){
+
+                                            var hasSigned = false;
+                                            //If current user logged in has already signed
+                                            if(signed != null){
+                                                hasSigned = true;
+                                            }
+
+                                            db.findMany(Comment, {petitionid: petitionid}, null, function (comments){
+                                                /*
+                                                    petitionResult is the petition being requested
+                                                    userResult is the owner of the petition
+                                                    signeeResult is the signees of the petition
+                                                    curUserResult is the user currently logged in
+                                                    hasSigned is if the user has already signed the petition
+                                                    comments is the array of comments in the petition
+                                                */
+                                                res.render('petition', {petitionResult, userResult, flag, signeeResult, curUserResult, hasSigned, comments});
+                                            });
+                                        });
+                                    }
+                                });
+
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            res.redirect('/login');
+        }
+            
     },
 
 
     getEditDays: function(req,res){
-        var checkedDays = req.query.checkedDays;
-        var petitionid = req.query.petitionid;
+        if(req.session.username) {
 
-        //console.log("checkedDays is: " + checkedDays + "/ petitionid is: " + petitionid);
-        //if more than one day is selected
-        if(checkedDays.length > 1){
-            db.updateOne(Petition, {petitionid: petitionid}, {day1: checkedDays[0], day2: checkedDays[1]}, function(data){
-                if(data != null)
-                    res.send("true");
-                else
-                    res.send("false");
-            });
+            var checkedDays = req.query.checkedDays;
+            var petitionid = req.query.petitionid;
+
+            //console.log("checkedDays is: " + checkedDays + "/ petitionid is: " + petitionid);
+            //if more than one day is selected
+            if(checkedDays.length > 1){
+                db.updateOne(Petition, {petitionid: petitionid}, {day1: checkedDays[0], day2: checkedDays[1]}, function(data){
+                    if(data != null)
+                        res.send("true");
+                    else
+                        res.send("false");
+                });
+            }
+            else{
+                db.updateOne(Petition, {petitionid: petitionid}, {day1: checkedDays[0], day2: checkedDays[1]}, function(data){
+                    if(data != null)
+                        res.send("true");
+                    else
+                        res.send("false");
+                });
+            }
         }
-        else{
-            db.updateOne(Petition, {petitionid: petitionid}, {day1: checkedDays[0], day2: checkedDays[1]}, function(data){
-                if(data != null)
-                    res.send("true");
-                else
-                    res.send("false");
-            });
+        else {
+            res.redirect('/login');
         }
+            
 
     },
 
     getEditTimeSlot: function(req,res){
-        var startTime = req.query.startTime;
-        var endTime = req.query.endTime;
-        var petitionid = req.query.petitionid;
-        
-        db.updateOne(Petition, {petitionid: petitionid}, {starttime: startTime, endtime: endTime}, function(data){
-                if(data != null)
-                    res.send("true");
-                else
-                    res.send("false");
-        });
+
+        if(req.session.username) {
+
+            var startTime = req.query.startTime;
+            var endTime = req.query.endTime;
+            var petitionid = req.query.petitionid;
+            
+            db.updateOne(Petition, {petitionid: petitionid}, {starttime: startTime, endtime: endTime}, function(data){
+                    if(data != null)
+                        res.send("true");
+                    else
+                        res.send("false");
+            });
+        }
+        else {
+            res.redirect('/login');
+        }
+            
     },
 
     getSignPetition: function(req,res){
 
-        var petitionId = req.query.petitionid;
-        var curUserName = req.query.curusername;
+        if(req.session.username) {
 
-        console.log("curUsername: " + curUserName);
+            res.redirect('/home/' + req.session.username);
+            var petitionId = req.query.petitionid;
+            var curUserName = req.query.curusername;
 
-        db.findOne(Petition, {petitionid: petitionId}, null, function (petitionResult){
-            if(petitionResult != null){
-                var numStudents = petitionResult.numstudents;
-                var numSigned = petitionResult.signed;
+            console.log("curUsername: " + curUserName);
 
-                var newSigned = parseInt(numSigned) + 1;
-                var newProgress = (parseInt(newSigned) / parseInt(numStudents)) * 100;
+            db.findOne(Petition, {petitionid: petitionId}, null, function (petitionResult){
+                if(petitionResult != null){
+                    var numStudents = petitionResult.numstudents;
+                    var numSigned = petitionResult.signed;
 
-                db.updateOne(Petition, petitionResult, {signed: newSigned, progress: newProgress},function(data){
-                    if(data != null){
+                    var newSigned = parseInt(numSigned) + 1;
+                    var newProgress = (parseInt(newSigned) / parseInt(numStudents)) * 100;
 
-                        db.findOne(User, {username: curUserName}, null, function(curUserResult){
-                            if(curUserResult != null){
+                    db.updateOne(Petition, petitionResult, {signed: newSigned, progress: newProgress},function(data){
+                        if(data != null){
 
-                                var signee = {
-                                    username: curUserResult.username,
-                                    first: curUserResult.first,
-                                    last: curUserResult.last,
-                                    idnum: curUserResult.idnum,
-                                    email: curUserResult.email,
-                                    petitionid: petitionId 
+                            db.findOne(User, {username: curUserName}, null, function(curUserResult){
+                                if(curUserResult != null){
+
+                                    var signee = {
+                                        username: curUserResult.username,
+                                        first: curUserResult.first,
+                                        last: curUserResult.last,
+                                        idnum: curUserResult.idnum,
+                                        email: curUserResult.email,
+                                        petitionid: petitionId 
+                                    }
+
+                                    db.insertOne(Signee, signee, function (result){
+                                         res.send("true");
+                                    })
+
                                 }
-
-                                db.insertOne(Signee, signee, function (result){
-                                     res.send("true");
-                                })
-
-                            }
-                            else{
-                                res.send("false");
-                            }
-                        })
-                    }
-                    else
-                        res.send("false");
-                });
-            }
-            else{
-                res.send("false");
-            }
-
-        });
+                                else{
+                                    res.send("false");
+                                }
+                            })
+                        }
+                        else
+                            res.send("false");
+                    });
+                }
+                else{
+                    res.send("false");
+                }
+            });
+        }
+        else {
+            res.redirect('/login');
+        }            
     },
 
     getUnsignPetition: function(req,res){
-        var petitionId = req.query.petitionid;
-        var curUserName = req.query.curusername;
+
+        if(req.session.username) {
+
+            var petitionId = req.query.petitionid;
+            var curUserName = req.query.curusername;
 
 
-        db.findOne(Petition, {petitionid: petitionId}, null, function (petitionResult){
-            if(petitionResult != null){
-                var numStudents = petitionResult.numstudents;
-                var numSigned = petitionResult.signed;
+            db.findOne(Petition, {petitionid: petitionId}, null, function (petitionResult){
+                if(petitionResult != null){
+                    var numStudents = petitionResult.numstudents;
+                    var numSigned = petitionResult.signed;
 
-                var newSigned = parseInt(numSigned) - 1;
-                var newProgress = (parseInt(newSigned) / parseInt(numStudents)) * 100;
+                    var newSigned = parseInt(numSigned) - 1;
+                    var newProgress = (parseInt(newSigned) / parseInt(numStudents)) * 100;
 
-                db.updateOne(Petition, petitionResult, {signed: newSigned, progress: newProgress},function(data){
-                    if(data != null){
-                        db.deleteOne(Signee, {username: curUserName}, function(deleteResult){
-                            if(deleteResult){
-                                res.send("true");
-                            }
-                            else{
-                                res.send("false");
-                            }
-                        });
-                    }
-                    else
-                        res.send("false");
-                });
-            }
-            else{
-                res.send("false");
-            }   
+                    db.updateOne(Petition, petitionResult, {signed: newSigned, progress: newProgress},function(data){
+                        if(data != null){
+                            db.deleteOne(Signee, {username: curUserName}, function(deleteResult){
+                                if(deleteResult){
+                                    res.send("true");
+                                }
+                                else{
+                                    res.send("false");
+                                }
+                            });
+                        }
+                        else
+                            res.send("false");
+                    });
+                }
+                else{
+                    res.send("false");
+                }   
 
-        });
+            });
+        }
+        else {
+            res.redirect('/login');
+        }
+            
     },
 
     getComment: function(req,res){
-       
-       var commentContent = req.query.commentcontent;
-       var firstName = req.query.firstname;
-       var lastName = req.query.lastname;
-       var petitionId = req.query.petitionid;
-       var curUsername = req.query.curusername;
-       var date = req.query.date;
-       
-       console.log("comment: " + commentContent + "/ first: " + firstName + "/ last: " + lastName + "/ petition id: " + petitionId + "/ date: " + date);
+        if(req.session.username) {
 
-       var comment = {
-         username: curUsername,
-         first: firstName,
-         last: lastName,
-         date: date,
-         petitionid: petitionId,
-         commentcontent: commentContent
-       }
+           var commentContent = req.query.commentcontent;
+           var firstName = req.query.firstname;
+           var lastName = req.query.lastname;
+           var petitionId = req.query.petitionid;
+           var curUsername = req.query.curusername;
+           var date = req.query.date;
+           
+           console.log("comment: " + commentContent + "/ first: " + firstName + "/ last: " + lastName + "/ petition id: " + petitionId + "/ date: " + date);
 
-       db.insertOne(Comment, comment, function(result){
-            if(result != null){
-                res.send("true");
-            }
-            else{
-                res.send("false");
-            }
-       });
+           var comment = {
+             username: curUsername,
+             first: firstName,
+             last: lastName,
+             date: date,
+             petitionid: petitionId,
+             commentcontent: commentContent
+           }
+
+           db.insertOne(Comment, comment, function(result){
+                if(result != null){
+                    res.send("true");
+                }
+                else{
+                    res.send("false");
+                }
+           });
+        }
+        else {
+            res.redirect('/login');
+        }  
     }
-
-
 }
 
 /*
