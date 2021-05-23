@@ -12,6 +12,7 @@ const logoutController = {
     getLogOut: function (req, res) {
 
         req.session.destroy();
+        console.log(`THIS IS A TEST FOR CONSOLE`);
         console.log(req.session.username);
 
         res.redirect('/');
