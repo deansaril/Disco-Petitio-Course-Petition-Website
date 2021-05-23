@@ -12,7 +12,27 @@ const logoutController = {
     getLogOut: function (req, res) {
 
         req.session.destroy();
-        req.session.cookie.expires = new Date().getTime();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
+        req.session.destroy();
 
         res.redirect('/');
 
