@@ -121,7 +121,7 @@ const createpetitionController = {
                                     }
                                     db.insertOne(Signee, signee, function(signee){
                                         if(signee){
-                                            res.redirect(/home/+petition.username);
+                                            res.redirect(/mypetition/+petition.username);
                                         }
                                     });
                                 }
