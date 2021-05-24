@@ -65,7 +65,8 @@ $(document).ready(function(){
 						var URL = window.location.href;
 
 						$('#desc-days').load(URL + ' #desc-days');
-						$('#petition-progress').load(URL + ' #petition-progress');
+						// $('#petition-progress').load(URL + ' #petition-progress');
+						updateProgress();
 						$('#signee-list').load(URL + ' #signee-list');
 
 					});
@@ -127,7 +128,8 @@ $(document).ready(function(){
 						alert("Update successfully done");
 						var URL = window.location.href;
 						$('#desc-time').load(URL + ' #desc-time');
-						$('#petition-progress').load(URL + ' #petition-progress');
+						// $('#petition-progress').load(URL + ' #petition-progress');
+						updateProgress();
 						$('#signee-list').load(URL + ' #signee-list');
 					});
 				}
@@ -174,7 +176,9 @@ $(document).ready(function(){
 
 						alert("You have successfully signed");
 						var URL = window.location.href;
-						$('#petition-progress').load(URL + ' #petition-progress');
+						// $('#petition-progress').load(URL + ' #petition-progress');
+						console.log($('#petition-progress').text());
+						updateProgress();	
 						$('#signee-list').load(URL + ' #signee-list');
 					});
 
@@ -197,7 +201,9 @@ $(document).ready(function(){
 			$.get(`/unsignPetition`, {petitionid: petitionId, curusername: curUserName}, function(result){
 				alert("You have successfully unsigned");
 				var URL = window.location.href;
-				$('#petition-progress').load(URL + ' #petition-progress');
+				// $('#petition-progress').load(URL + ' #petition-progress');
+				console.log(result);
+				updateProgress();
 				$('#signee-list').load(URL + ' #signee-list');
 			});
 
@@ -318,3 +324,10 @@ $(document).ready(function(){
 		$(this).css("cursor","default");
 	});
 });
+function updateProgress(){
+	var petitionId = $("#petition-id").text();
+    $.get(`/getPetitionInfo`, {petitionid: petitionId}, function(result){
+    	console.log(result);
+    	$('#petition-progress').css('width', result.progress+'%').text(result.signed + ` of ` + result.numstudents);
+    });
+}

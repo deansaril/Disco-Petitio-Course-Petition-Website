@@ -128,6 +128,8 @@ app.get('/deleteComment', petitionController.getDeleteComment);
 //AJAX path for deleting a petition
 app.get('/deletePetition', petitionController.getDeletePetition);
 
+app.get('/getPetitionInfo', petitionController.getPetitionInfo);
+
 
 //path for notifications page
 app.get('/notifications/:username', notificationsController.getNotifications);
