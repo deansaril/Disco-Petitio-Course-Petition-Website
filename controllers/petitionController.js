@@ -24,11 +24,12 @@ const petitionController = {
         if(req.session.username) {
 
                  var username = req.session.username;
+                 var ownerusername = req.params.username;
                  var petitionid = req.params.petitionid;
                  var flag = false;
 
             //gets the petition requested in the path based on petition id
-            db.findOne(Petition, {petitionid: petitionid}, null, function (petitionResult){
+            db.findOne(Petition, {petitionid: petitionid, username: ownerusername}, null, function (petitionResult){
                 if(petitionResult != null){
 
                     //gets the User or the owner of the petition
