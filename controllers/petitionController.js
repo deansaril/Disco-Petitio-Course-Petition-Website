@@ -70,7 +70,12 @@ const petitionController = {
                         }
                     });
                 }
-            });
+                else{
+                    db.findOne(User, {username: username}, null, function(userResult){
+                        res.render('error',{userResult});
+                    });
+                }
+        });
         }
         else {
             res.redirect('/login');
@@ -141,9 +146,6 @@ const petitionController = {
 
         db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
                 db.findMany(Signee, {petitionid: petitionid}, null, function(signees){
-                    console.log("Number of signees is: " + signees.length);
-
-                    console.log("Signees are: " + signees);
 
                     var i;
                     var signeeNotif = {};
@@ -178,8 +180,6 @@ const petitionController = {
                  });
                 res.send("true");
             });
-
-        
 
     },
 
@@ -336,20 +336,6 @@ const petitionController = {
                 res.send("false");
             }
         });
-    },
-
-    getPetitionInfo: function (req, res) {
-        if(req.session.username) {
-
-            var petitionid = req.query.petitionid;
-            // console.log(`TEST: ` + petitionid);
-            db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
-                res.send(result);
-            });
-        }
-        else {
-            res.redirect('/login');
-        }
     }
 }
 
