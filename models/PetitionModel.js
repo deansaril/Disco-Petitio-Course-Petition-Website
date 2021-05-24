@@ -52,9 +52,9 @@ var PetitionSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    path: {
+    datecreated: {
         type: String,
-        required: false
+        required: true
     }
 });
 
