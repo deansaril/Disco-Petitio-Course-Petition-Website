@@ -134,6 +134,11 @@ const acceptpetitionController = {
                                 inserted = notifResult;
                             })
                         }
+                        else{
+                            db.insertOne(Notification, ownerNotif, function(notifResult){
+                                inserted = notifResult;
+                            });
+                        }
                     }
                 });
 
@@ -195,6 +200,11 @@ const acceptpetitionController = {
                                 inserted = notifResult;
                             })
                         }
+                        else{
+                            db.insertOne(Notification, ownerNotif, function(notifResult){
+                                inserted = notifResult;
+                            });
+                        }
                     }
                 });
 
@@ -240,7 +250,7 @@ const acceptpetitionController = {
                     var inserted = true;
                     for(i = 0; i < signees.length && inserted; i++){
 
-                        //if current signee is not the owner of petition, insert a notification 
+                        //if current signee is not the owner of petition, insert a signed notification 
                         if(signees[i].username != result.username){
 
 
@@ -255,6 +265,11 @@ const acceptpetitionController = {
                             db.insertOne(Notification, signeeNotif, function(notifResult){
                                 inserted = notifResult;
                             })
+                        }
+                        else{
+                            db.insertOne(Notification, ownerNotif, function(notifResult){
+                                inserted = notifResult;
+                            });
                         }
                     }
                 });
