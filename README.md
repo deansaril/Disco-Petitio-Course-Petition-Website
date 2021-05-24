@@ -62,6 +62,12 @@ password: 12345678
 
 username: john_smith
 password: 11223344
+
+username: deansaril
+password: deansaril1
+
+username: gabsaril
+password: gabsaril1
 ```
 ## Register
 Located under the Log-in button in the login page, any user who wants to access the web application but does not have an account will have to register first.
