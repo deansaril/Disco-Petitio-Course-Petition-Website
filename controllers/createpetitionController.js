@@ -42,6 +42,10 @@ const createpetitionController = {
             
             var errors = validationResult(req);
             console.log(`TEST`);
+
+            var today = new Date();
+            var formattedDate = today.getFullYear().toString() + '/' + (today.getMonth() + 1).toString().padStart(2, 0) + '/' + today.getDate().toString().padStart(2, 0);
+
             if (!errors.isEmpty()) {
 
                 errors = errors.errors;
@@ -80,6 +84,7 @@ const createpetitionController = {
                 var tempprogress= parseInt(parseInt(signed) / parseInt(numstudents) * 100);
                 var progress= tempprogress.toString();
                 var statusicon= `fa fa-tasks`;
+                var datecreated = formattedDate;
 
                 var temppetitionid = 0;
                 db.findMany(Petition, null, null, function (all) {
@@ -103,7 +108,8 @@ const createpetitionController = {
                         signed: signed,
                         progress: progress,
                         statusicon: statusicon,
-                        petitionid: petitionid
+                        petitionid: petitionid,
+                        datecreated: datecreated
                     }
 
                     db.insertOne(Petition, petition, function(flag) {
