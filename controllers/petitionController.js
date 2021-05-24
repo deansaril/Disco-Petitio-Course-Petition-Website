@@ -139,8 +139,6 @@ const petitionController = {
         var today = new Date();
         var formattedDate = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString().padStart(2, 0) + '-' + today.getDate().toString().padStart(2, 0);
 
-
-
         db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
                 db.findMany(Signee, {petitionid: petitionid}, null, function(signees){
                     console.log("Number of signees is: " + signees.length);
@@ -189,11 +187,8 @@ const petitionController = {
 
         if(req.session.username) {
 
-            res.redirect('/home/' + req.session.username);
             var petitionId = req.query.petitionid;
             var curUserName = req.query.curusername;
-
-            console.log("curUsername: " + curUserName);
 
             db.findOne(Petition, {petitionid: petitionId}, null, function (petitionResult){
                 if(petitionResult != null){
@@ -201,13 +196,15 @@ const petitionController = {
                     var numSigned = petitionResult.signed;
 
                     var newSigned = parseInt(numSigned) + 1;
-                    var newProgress = (parseInt(newSigned) / parseInt(numStudents)) * 100;
+                    var newProgress = parseInt((parseInt(newSigned) / parseInt(numStudents)) * 100);
+
+                    console.log("newProgress after signing is: " + newProgress);
 
                     db.updateOne(Petition, petitionResult, {signed: newSigned, progress: newProgress},function(data){
-                        if(data != null){
+                        if(data){
 
                             db.findOne(User, {username: curUserName}, null, function(curUserResult){
-                                if(curUserResult != null){
+                                if(curUserResult){
 
                                     var signee = {
                                         username: curUserResult.username,
@@ -219,23 +216,16 @@ const petitionController = {
                                     }
 
                                     db.insertOne(Signee, signee, function (result){
-                                         res.send("true");
-                                    })
-
-                                }
-                                else{
-                                    res.send("false");
+                                        res.send(""+result);
+                                    });
                                 }
                             })
-                        }
-                        else
-                            res.send("false");
+                        };
                     });
                 }
-                else{
-                    res.send("false");
-                }
             });
+
+
         }
         else {
             res.redirect('/login');
@@ -256,26 +246,20 @@ const petitionController = {
                     var numSigned = petitionResult.signed;
 
                     var newSigned = parseInt(numSigned) - 1;
-                    var newProgress = (parseInt(newSigned) / parseInt(numStudents)) * 100;
+                    var newProgress = parseInt((parseInt(newSigned) / parseInt(numStudents)) * 100);
+
+                    console.log("newProgress after unsigning is: " + newProgress);
+
 
                     db.updateOne(Petition, petitionResult, {signed: newSigned, progress: newProgress},function(data){
-                        if(data != null){
-                            db.deleteOne(Signee, {username: curUserName}, function(deleteResult){
-                                if(deleteResult){
-                                    res.send("true");
-                                }
-                                else{
-                                    res.send("false");
-                                }
+                        if(data){
+                            console.log("Updated petition. Now deleting the user.");
+                            db.deleteOne(Signee, {username: curUserName, petitionid: petitionResult.petitionid}, function(deleteResult){
+                                res.send("" + deleteResult); 
                             });
                         }
-                        else
-                            res.send("false");
                     });
                 }
-                else{
-                    res.send("false");
-                }   
             });
             
     },
