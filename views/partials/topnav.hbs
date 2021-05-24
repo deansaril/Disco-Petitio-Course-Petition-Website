@@ -11,6 +11,15 @@
 	    {{#if admin}}
 	    	<a href="/acceptpetition/{{username}}/filter?search="><i class="fa fa-fw fa-inbox"></i>Accept Petitions</a>
 	    {{/if}}
+	    {{#if result.admin}}
+	    	<a href="/acceptpetition/{{username}}/filter?search="><i class="fa fa-fw fa-inbox"></i>Accept Petitions</a>
+	    {{/if}}
+	    {{#if curUserResult.admin}}
+	    	<a href="/acceptpetition/{{username}}/filter?search="><i class="fa fa-fw fa-inbox"></i>Accept Petitions</a>
+	    {{/if}}
+		{{#if userResult.admin}}
+	    	<a href="/acceptpetition/{{username}}/filter?search="><i class="fa fa-fw fa-inbox"></i>Accept Petitions</a>
+	    {{/if}}	    
 	</div>
 	<div class="link">
 		<a id="dlsu" href="https://my.dlsu.edu.ph/contactinfo.asp">
