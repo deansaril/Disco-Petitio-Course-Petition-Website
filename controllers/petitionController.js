@@ -336,6 +336,20 @@ const petitionController = {
                 res.send("false");
             }
         });
+    },
+    
+    getPetitionInfo: function (req, res) {
+        if(req.session.username) {
+
+            var petitionid = req.query.petitionid;
+            // console.log(`TEST: ` + petitionid);
+            db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
+                res.send(result);
+            });
+        }
+        else {
+            res.redirect('/login');
+        }
     }
 }
 
