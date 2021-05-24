@@ -11,6 +11,8 @@ const Signee = require('../models/SigneeModel.js');
 
 const Comment = require('../models/CommentModel.js');
 
+const Notification = require('../models/NotificationModel.js');
+
 /*
     defines an object which contains functions executed as callback
     when a client requests for `Register` paths in the server
@@ -21,9 +23,9 @@ const petitionController = {
     getPetition: function(req,res){
         if(req.session.username) {
 
-            var username = req.session.username;
-            var petitionid = req.params.petitionid;
-            var flag = false;
+                 var username = req.session.username;
+                 var petitionid = req.params.petitionid;
+                 var flag = false;
 
             //gets the petition requested in the path based on petition id
             db.findOne(Petition, {petitionid: petitionid}, null, function (petitionResult){
@@ -32,14 +34,11 @@ const petitionController = {
                     //gets the User or the owner of the petition
                     db.findOne(User, {username: petitionResult.username}, null, function (userResult){
                         if(userResult != null){
-
                             //db findOne(Signee, {username: username, petitionid: petitionid})
                             db.findOne(User, {username: username}, null, function(curUserResult){
                                 if(username == userResult.username){
                                     flag = true;
                                 }
-
-
                                 db.findMany(Signee, {petitionid: petitionid}, null, function (signeeResult){
 
                                     if(signeeResult != null){
@@ -59,6 +58,7 @@ const petitionController = {
                                                     curUserResult is the user currently logged in
                                                     hasSigned is if the user has already signed the petition
                                                     comments is the array of comments in the petition
+                                                    ownerUsername is the username of the owner of the petition
                                                 */
                                                 res.render('petition', {petitionResult, userResult, flag, signeeResult, curUserResult, hasSigned, comments});
                                             });
@@ -132,6 +132,59 @@ const petitionController = {
             
     },
 
+    getDeletePetition: function (req,res){
+
+        var petitionid = req.query.petitionid;
+
+        var today = new Date();
+        var formattedDate = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString().padStart(2, 0) + '-' + today.getDate().toString().padStart(2, 0);
+
+
+
+        db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
+                db.findMany(Signee, {petitionid: petitionid}, null, function(signees){
+                    console.log("Number of signees is: " + signees.length);
+
+                    console.log("Signees are: " + signees);
+
+                    var i;
+                    var signeeNotif = {};
+                    var inserted = true;
+
+                    for(i = 0; i < signees.length && inserted; i++){
+
+                        //if current signee is not the owner of petition, insert a notification 
+                        if(signees[i].username != result.username){
+
+
+                            signeeNotif.username = signees[i].username;
+                            signeeNotif.petitionusername = result.username;
+                            signeeNotif.petitionid = result.petitionid;
+                            signeeNotif.coursecode = result.coursecode;
+                            signeeNotif.type = "signed";
+                            signeeNotif.statusicon = "fa fa-ban";
+                            signeeNotif.date = formattedDate;
+
+                            db.insertOne(Notification, signeeNotif, function(notifResult){
+                                inserted = notifResult;
+                            })
+                        }
+                    }
+                });
+
+                 db.deleteOne(Petition, {petitionid: petitionid}, function (delPetition){
+                    db.deleteMany(Signee, {petitionid: petitionid}, function (delSignee){
+                        db.deleteMany(Comment, {petitionid: petitionid}, function(delComment){
+                        });
+                    });
+                 });
+                res.send("true");
+            });
+
+        
+
+    },
+
     getSignPetition: function(req,res){
 
         if(req.session.username) {
@@ -191,7 +244,7 @@ const petitionController = {
 
     getUnsignPetition: function(req,res){
 
-        if(req.session.username) {
+
 
             var petitionId = req.query.petitionid;
             var curUserName = req.query.curusername;
@@ -223,12 +276,7 @@ const petitionController = {
                 else{
                     res.send("false");
                 }   
-
             });
-        }
-        else {
-            res.redirect('/login');
-        }
             
     },
 
@@ -240,9 +288,8 @@ const petitionController = {
            var lastName = req.query.lastname;
            var petitionId = req.query.petitionid;
            var curUsername = req.query.curusername;
+           var curUserPic = req.query.curuserpic;
            var date = req.query.date;
-           
-           console.log("comment: " + commentContent + "/ first: " + firstName + "/ last: " + lastName + "/ petition id: " + petitionId + "/ date: " + date);
 
            var comment = {
              username: curUsername,
@@ -250,21 +297,61 @@ const petitionController = {
              last: lastName,
              date: date,
              petitionid: petitionId,
-             commentcontent: commentContent
+             commentcontent: commentContent,
+             picname: curUserPic
            }
 
-           db.insertOne(Comment, comment, function(result){
-                if(result != null){
-                    res.send("true");
-                }
-                else{
-                    res.send("false");
-                }
-           });
+           //looks for the petition being commented on
+           db.findOne(Petition, {petitionid: petitionId}, null, function(petitionResult){
+
+                //looks for the owner of the petition
+                db.findOne(User, {username: petitionResult.username}, null, function(userResult){
+
+                    var commentNotif = 
+                    {
+                        username: userResult.username, 
+                        petitionusername: userResult.username,
+                        first: firstName,
+                        last: lastName,
+                        petitionid: petitionId,
+                        coursecode: petitionResult.coursecode,
+                        type: "my",
+                        statusicon: "fa fa-comment",
+                        date: date                                   
+                    }
+
+                    db.insertOne(Comment, comment, function(result){
+
+                            //If current user logged in is not the owner of the petition being commented on
+                            if(curUsername != commentNotif.petitionusername){
+                                db.insertOne(Notification, commentNotif, function(notifResult){
+                                 });
+                            }
+                            res.send("true");
+                    });
+                })
+           })
         }
         else {
             res.redirect('/login');
         }  
+    },
+
+    getDeleteComment: function(req,res){
+
+        var petitionId = req.query.petitionid;
+        var commentUsername = req.query.commentusername;
+        var commentContent = req.query.commentcontent;
+        console.log("Pet id: " + petitionId + "username: " + commentUsername);
+
+        db.deleteOne(Comment, {petitionid: petitionId, username: commentUsername, commentcontent: commentContent}, function(delComment){
+            if(delComment){
+                res.send("true");
+            }
+            else{
+                res.send("false");
+            }
+        });
     }
 }
 

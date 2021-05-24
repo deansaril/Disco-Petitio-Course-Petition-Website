@@ -7,6 +7,10 @@ const Petition = require('../models/PetitionModel.js');
 
 const User = require('../models/UserModel.js');
 
+const Signee = require('../models/SigneeModel.js');
+
+const Notification = require('../models/NotificationModel.js');
+
 /*
     defines an object which contains functions executed as callback
     when a client requests for `Register` paths in the server
@@ -27,13 +31,6 @@ const acceptpetitionController = {
                 db.findMany(Petition, {progress: 100}, null, function (all) {
                     // res.send(result);
                     res.render(`accept-petition`,{all,result});
-                    //res.send(all);
-                    // res.render(`my-petition`, { 
-                    //     friends:[ 
-                    //         {fn: `“Ned”`, ln: `“Stark”`}, 
-                    //         {fn: `“Cat”`, ln: `“Tully”`}
-                    //     ]
-                    // });
                 });
             });
         }
@@ -97,13 +94,50 @@ const acceptpetitionController = {
                 statusicon: "fa fa-check-square"
             }
 
+            var today = new Date();
+            var formattedDate = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString().padStart(2, 0) + '-' + today.getDate().toString().padStart(2, 0);
+
             db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
-                db.updateOne(Petition, result, status, function (data) { 
-                    if(data != null)
-                        res.send("true");
-                    else
-                        res.send("false");
+          
+                db.updateOne(Petition, result, status, function (data) {});
+                var ownerNotif = 
+                {
+                    username: result.username, 
+                    petitionusername: result.username,
+                    petitionid: petitionid,
+                    coursecode: result.coursecode,
+                    type: "my",
+                    statusicon: "fa fa-check",
+                    date: formattedDate                                   
+                }
+
+                db.findMany(Signee, {petitionid: petitionid}, null, function(signees){
+                    var i;
+                    var signeeNotif = {};
+
+                    var inserted = true;
+                    for(i = 0; i < signees.length && inserted; i++){
+
+                        //if current signee is not the owner of petition, insert a notification 
+                        if(signees[i].username != result.username){
+
+
+                            signeeNotif.username = signees[i].username;
+                            signeeNotif.petitionusername = result.username;
+                            signeeNotif.petitionid = result.petitionid;
+                            signeeNotif.coursecode = result.coursecode;
+                            signeeNotif.type = "signed";
+                            signeeNotif.statusicon = "fa fa-check";
+                            signeeNotif.date = formattedDate;
+
+                            db.insertOne(Notification, signeeNotif, function(notifResult){
+                                inserted = notifResult;
+                            })
+                        }
+                    }
                 });
+
+                res.send("true");
             });
         }
         else {
@@ -121,13 +155,50 @@ const acceptpetitionController = {
                 statusicon: "fa fa-times-circle"
             }
 
+            var today = new Date();
+            var formattedDate = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString().padStart(2, 0) + '-' + today.getDate().toString().padStart(2, 0);
+
             db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
-                db.updateOne(Petition, result, status, function (data) { 
-                    if(data != null)
-                        res.send("true");
-                    else
-                        res.send("false");
+          
+                db.updateOne(Petition, result, status, function (data) {});
+                var ownerNotif = 
+                {
+                    username: result.username, 
+                    petitionusername: result.username,
+                    petitionid: petitionid,
+                    coursecode: result.coursecode,
+                    type: "my",
+                    statusicon: "fa fa-close",
+                    date: formattedDate                                   
+                }
+
+                db.findMany(Signee, {petitionid: petitionid}, null, function(signees){
+                    var i;
+                    var signeeNotif = {};
+
+                    var inserted = true;
+                    for(i = 0; i < signees.length && inserted; i++){
+
+                        //if current signee is not the owner of petition, insert a notification 
+                        if(signees[i].username != result.username){
+
+
+                            signeeNotif.username = signees[i].username;
+                            signeeNotif.petitionusername = result.username;
+                            signeeNotif.petitionid = result.petitionid;
+                            signeeNotif.coursecode = result.coursecode;
+                            signeeNotif.type = "signed";
+                            signeeNotif.statusicon = "fa fa-close";
+                            signeeNotif.date = formattedDate;
+
+                            db.insertOne(Notification, signeeNotif, function(notifResult){
+                                inserted = notifResult;
+                            })
+                        }
+                    }
                 });
+
+                res.send("true");
             });
         }
         else {
@@ -145,13 +216,50 @@ const acceptpetitionController = {
                 statusicon: "fa fa-spinner"
             }
 
+            var today = new Date();
+            var formattedDate = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString().padStart(2, 0) + '-' + today.getDate().toString().padStart(2, 0);
+
             db.findOne(Petition, {petitionid: petitionid}, null, function (result) {
-                db.updateOne(Petition, result, status, function (data) { 
-                    if(data != null)
-                        res.send("true");
-                    else
-                        res.send("false");
+
+                db.updateOne(Petition, result, status, function (data) {});
+                var ownerNotif = 
+                {
+                    username: result.username, 
+                    petitionusername: result.username,
+                    petitionid: petitionid,
+                    coursecode: result.coursecode,
+                    type: "my",
+                    statusicon: "fa fa-book",
+                    date: formattedDate                                   
+                }
+
+                db.findMany(Signee, {petitionid: petitionid}, null, function(signees){
+                    var i;
+                    var signeeNotif = {};
+
+                    var inserted = true;
+                    for(i = 0; i < signees.length && inserted; i++){
+
+                        //if current signee is not the owner of petition, insert a notification 
+                        if(signees[i].username != result.username){
+
+
+                            signeeNotif.username = signees[i].username;
+                            signeeNotif.petitionusername = result.username;
+                            signeeNotif.petitionid = result.petitionid;
+                            signeeNotif.coursecode = result.coursecode;
+                            signeeNotif.type = "signed";
+                            signeeNotif.statusicon = "fa fa-book";
+                            signeeNotif.date = formattedDate;
+
+                            db.insertOne(Notification, signeeNotif, function(notifResult){
+                                inserted = notifResult;
+                            })
+                        }
+                    }
                 });
+
+                res.send("true");
             });
         }
         else {

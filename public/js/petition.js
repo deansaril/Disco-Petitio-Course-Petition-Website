@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 //-------------------------Functions for When The User Owns the Petition---------------------------------
 	//Clicking the edit button in the days row
 	$("#edit-days").click(function(){
@@ -25,6 +26,9 @@ $(document).ready(function(){
 		var numChecked = $(".checkboxes input:checked").length;
 
 		var checkedDays = [];
+
+		var curUserName = $("#curuser-username").text();
+
 		$(".checkboxes input[type=checkbox]").each(function(){
 			if($(this).is(":checked")){
 				checkedDays.push($(this).attr("value"));
@@ -55,11 +59,15 @@ $(document).ready(function(){
 				var petitionId = $("#petition-id").text();
 
 				if(confirmDays){
-					$.get(`/editDays`, {checkedDays : checkedDays, petitionid: petitionId}, function(result){
+					$.get(`/editDays`,  {checkedDays : checkedDays, petitionid: petitionId, curusername: curUserName}, function(result){
 
 						alert("Update successfully done");
 						var URL = window.location.href;
+
 						$('#desc-days').load(URL + ' #desc-days');
+						$('#petition-progress').load(URL + ' #petition-progress');
+						$('#signee-list').load(URL + ' #signee-list');
+
 					});
 
 				}
@@ -91,6 +99,8 @@ $(document).ready(function(){
 
 		var startTime = $("#start-time").val();
 		var endTime = $("#end-time").val();	
+		var curUserName = $("#curuser-username").text();
+
 		if(startTime == "" || endTime == "")
 		{
 			alert("An input field is empty. Please fill up that field");
@@ -111,11 +121,14 @@ $(document).ready(function(){
 				var confirmation = confirm("Are you sure to edit your course's time slot? Editing this will update your petition but remove all of its signatures.");
 				if(confirmation == true)
 				{
-					$.get(`/editTimeSlot`, {startTime : editStartTime, endTime: editEndTime, petitionid: petitionId}, function(result){
+					$.get(`/editTimeSlot`, {startTime : editStartTime, endTime: editEndTime, petitionid: petitionId, curusername: curUserName}, function(result){
+
 
 						alert("Update successfully done");
 						var URL = window.location.href;
 						$('#desc-time').load(URL + ' #desc-time');
+						$('#petition-progress').load(URL + ' #petition-progress');
+						$('#signee-list').load(URL + ' #signee-list');
 					});
 				}
 			}
@@ -127,9 +140,21 @@ $(document).ready(function(){
 	$("#delete-petition").click(function(){
 		var confirmDelete = confirm("Are you sure to delete this petition? Signatures and comments will be removed.");
 
+		var petitionId = $("#petition-id").text();
+		var curUsername = $("#curuser-username").text();
+
+
 		if(confirmDelete == true){
-			alert("Deleted");
-			//Insert delete petition
+			$.get(`/deletePetition`, {petitionid: petitionId}, function(result){
+
+				if(result){
+					alert("The petition is succesfully deleted. You will now be redirected to the My Petitions page.");
+			    	window.location.href = '/mypetition/' + curUsername;
+				}
+				else{
+					alert("The petition is not successfully deleted");
+				}
+			});
 		}
 	})
 
@@ -180,8 +205,6 @@ $(document).ready(function(){
 			$(this).text("Sign Petition");
 			$(this).removeClass("unsign-petition").addClass("sign-petition");
 		}
-
-
 	});
 
 
@@ -206,75 +229,6 @@ $(document).ready(function(){
         */
         //For comment, If commenter of the comment is user currently logged in, then the display is shown. Otherwise, the display is hidden
         if($("#comment-content").val()){
-        	/*
-        	//Gets number of comments and sets the id of the comment currently being made;
-        	var numComments =  $("#comment-section .d-flex.flex-row.p-3").length;
-        	var commentId = "comment-" + (numComments + 1);
-
-			var mainComment = document.createElement("div");
-			$(mainComment).attr("class", "d-flex flex-row p-3");
-			$(mainComment).attr("id", commentId);
-
-			//Image of comment
-			var userImage = document.createElement("img");
-			$(userImage).attr("src","images/avatar.png");
-			$(userImage).attr("width","40");
-			$(userImage).attr("height","40");
-			$(userImage).attr("class","rounded-circle me-3");
-			$(mainComment).append(userImage);
-
-			// container of the comment and its components
-			var widthDiv = document.createElement("div");
-			$(widthDiv).attr("class","w-100");
-
-
-			// <div class="d-flex justify-content-between align-items-center">
-			var alignDiv = document.createElement("div");
-			$(alignDiv).attr("class", "d-flex justify-content-between align-items-center");
-
-
-			//<div class="d-flex flex-row align-items-center"> </div>
-			var nameDiv = document.createElement("div");
-			$(nameDiv).attr("class", "d-flex flex-row align-items-center");
-
-			//<span class="me-2">
-			var nameSpan = document.createElement("span");
-			$(nameSpan).attr("class","me-2");
-			$(nameSpan).text("John Smith");
-			$(nameDiv).append(nameSpan);
-			$(alignDiv).append(nameDiv);
-
-			//<small></small>
-			//Date of comment
-			var commentDate = document.createElement("small");
-			var today = new Date();
-			var formattedDate = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString().padStart(2, 0) + '-' + today.getDate().toString().padStart(2, 0);
-
-			$(commentDate).text(formattedDate);
-			$(alignDiv).append(commentDate);
-
-			//appends  Name and Date to comment container widthDiv
-			$(widthDiv).append(alignDiv);
-
-			var commentContent = document.createElement("p");
-			$(commentContent).attr("class","text-justify comment-text mb-0");
-			$(commentContent).text($("#comment-content").val());
-
-			$(widthDiv).append(commentContent);
-
-
-			var buttonsDiv = document.createElement("div");
-			$(buttonsDiv).attr("class","d-flex flex-row user-feed");
-				var buttonSpan = document.createElement("span");
-				$(buttonSpan).attr("class","ms-3");
-				$(buttonSpan).html('<i class="fa fa-comments-o me-2"></i>Reply');
-				$(buttonsDiv).append(buttonSpan);
-
-			$(widthDiv).append(buttonsDiv);
-			$(mainComment).append(widthDiv);
-
-			$("#comment-section").append(mainComment);
-			*/
 
 			var today = new Date();
 			var formattedDate = today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString().padStart(2, 0) + '-' + today.getDate().toString().padStart(2, 0);
@@ -284,6 +238,7 @@ $(document).ready(function(){
 			var lastName = $("#curuser-last").text();
 			var petitionId = $("#petition-id").text();
 			var curUsername = $("#curuser-username").text();
+			var curUserpic= $("#curuser-picname").text();
 
 
 			$.get(`/getComment`, 
@@ -292,13 +247,13 @@ $(document).ready(function(){
 				lastname: lastName, 
 				petitionid: petitionId, 
 				curusername: curUsername, 
-				date: formattedDate},  function(result){
+				date: formattedDate,
+			 	curuserpic: curUserpic},  function(result){
 					var URL = window.location.href;
+					console.log("URL: " + URL);
 					$('#comment-section').load(URL + ' #comment-section');
-
 					$("#comment-content").val("");
 			});
-
 
 		}
 		else{
@@ -309,10 +264,39 @@ $(document).ready(function(){
 	//Reply Button Click
 	$("#comment-section").on('click', '.reply-button',function(){
 
-		alert("You clicked on the reply button! COmment content is: " + $("#comment-content").val());
 
 		$("#comment-content").focus();
-		$("#comment-content").val("@" + "Hello");
+		var div = $(this).parent().siblings()[0];
+		var span = $(div).find("span");
+		var spanName = $(span).text();
+		$("#comment-content").val("@" + spanName);
+
+	});
+
+	$("#comment-section").on('click', '.delete-button',function(){
+
+
+		var grandparentDiv =$(this).parent().parent();
+		var grandClass =$(grandparentDiv).attr("class");
+		var nameDiv = $(grandparentDiv).siblings()[0];
+		var commentUsername = $(nameDiv).text();
+
+
+		var parentDiv = $(this).parent();
+		var commentDiv = $(parentDiv).siblings()[1];
+		var commentContent = $(commentDiv).text();
+
+		var petitionId = $("#petition-id").text();
+
+		var confirmation = confirm("Are you sure to delete your comment?");
+		if(confirmation){
+			$.get('/deleteComment', {petitionid: petitionId, commentusername: commentUsername, commentcontent: commentContent}, function(result){
+				var URL = window.location.href;
+				$('#comment-section').load(URL + ' #comment-section');
+			});
+		}
+
+		
 
 	});
 
@@ -327,10 +311,10 @@ $(document).ready(function(){
 
 	$(".delete-button").hover(function(){
 
-		$(this).attr("class", "ms-3 delete-button text-secondary");
+		$(this).addClass("text-secondary");
 		$(this).css("cursor","pointer");
 	}, function(){
-		$(this).attr("class", "ms-3 delete-button");
+		$(this).removeClass("text-secondary");
 		$(this).css("cursor","default");
 	});
 });

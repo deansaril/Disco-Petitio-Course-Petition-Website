@@ -63,7 +63,7 @@ hbs.registerHelper('checklength', function (v1, v2, options) {
 
 //Additional Helpers By Dean
 hbs.registerHelper('statusString', function(statusIcon) {
-	var value;
+	var value = "Undecided";
 	if(statusIcon == "fa fa-tasks"){
 		value = 'Ongoing';
 	} 
@@ -75,6 +75,18 @@ hbs.registerHelper('statusString', function(statusIcon) {
 	}
 	else if(statusIcon == "fa fa-times-circle"){
 		value = 'Disapproved';
+	}
+	else if(statusIcon == "fa fa-check"){
+		value = 'Approved';
+	}
+	else if(statusIcon == "fa fa-close"){
+		value = 'Disapproved';
+	}
+	else if(statusIcon == "fa fa-book"){
+		value = 'Pending';
+	}
+	else if(statusIcon == "fa fa-ban"){
+		value = 'Deleted';
 	}
 	return value;
 });
@@ -148,7 +160,40 @@ hbs.registerHelper('statusAlertText', function(status){
 	}
 	else if(status == "fa fa-times-circle"){
 		//value = 'Disapproved';
-		value = 'orry! This petition is disapproved by the university. Please start or sign another petition.';
+		value = 'Sorry! This petition is disapproved by the university. Please start or sign another petition.';
+	}
+	return value;
+});
+
+hbs.registerHelper('ifOwnComment', function(commentUsername, curUsername){
+	var value;
+	
+	if(commentUsername == curUsername){
+		value = "d-inline";
+	}
+	else{
+		value = "d-none";
+	}
+	return value;
+});
+
+hbs.registerHelper('completeProgress', function(progress){
+	var value = true;
+	
+	if(progress == 100){
+		value = false;
+	}
+	return value;
+});
+
+hbs.registerHelper('commentNotif', function(statusIcon){
+	var value = false;
+	
+	if(statusIcon == 'fa fa-comment'){
+		value = true;
+	}
+	else{
+		value  = false;
 	}
 	return value;
 });

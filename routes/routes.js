@@ -33,9 +33,11 @@ const signpetitionController = require('../controllers/signpetitionController.js
 
 const acceptpetitionController = require('../controllers/acceptpetitionController.js');
 
-const petitionController = require('../controllers/petitionController.js')
+const petitionController = require('../controllers/petitionController.js');
 
-const logoutController = require('../controllers/logoutController.js')
+const notificationsController = require('../controllers/notificationsController.js');
+
+const logoutController = require('../controllers/logoutController.js');
 
 const validation = require('../helpers/validation.js');
 
@@ -119,5 +121,15 @@ app.get('/unsignPetition', petitionController.getUnsignPetition);
 
 //AJAX path for commenting in a petition
 app.get('/getComment', petitionController.getComment);
+
+//AJAX path for deleted a comment
+app.get('/deleteComment', petitionController.getDeleteComment);
+
+//AJAX path for deleting a petition
+app.get('/deletePetition', petitionController.getDeletePetition);
+
+
+//path for notifications page
+app.get('/notifications/:username', notificationsController.getNotifications);
 
 module.exports = app;
