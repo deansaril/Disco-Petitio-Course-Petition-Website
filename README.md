@@ -59,6 +59,9 @@ The following account/s are example of a normal user account
 ```
 username: user
 password: 12345678
+
+username: john_smith
+password: 11223344
 ```
 ## Register
 Located under the Log-in button in the login page, any user who wants to access the web application but does not have an account will have to register first.
